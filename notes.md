@@ -158,3 +158,9 @@ func main(){
 # 24 & 25: Github
 
 Make sure that Git is installed.
+
+Make sure you are in the project directory and initialise Git with `git init`.
+Add the remote Github origin (if you are using it) with `git remote add origin https://github.com/<username>/<repo>` e.g `git remote add origin https://github.com/RobCThompson/UdemyGoLangTraining.git`.  Don't forget the `.git` extension!.
+If the repository was created on Github with a README.md document or some other content then the repo's might not match so it's likely to be a good idea to *PULL* the remote repo before making changes to the local one.  Do this with `git pull origin master`.
+Then, continue to use git as you would locally, i.e adding files with `git add <filename>`, commiting with `git commi -m "a useful message"`.
+If you then wish to push back to github do so with `git push -u origin master`
