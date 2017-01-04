@@ -237,4 +237,85 @@ Decimal    Binary        Octal    Hexadecimal
 ~~~
 
 --------------------------------------------------------------------------------
-# 36: Coding Scheme Programs continued
+# 39: Packages
+
+Go code is organised into packages. Folder names need to match package names.
+
+For 3rd pary packages the import in the code needs to be the fully qulified name.
+
+Functions with a Capital initial letter are exported, that is, visible from outside the package.  Functinos with a lower-case letter are only available inside the package.
+
+Variables work in the same way!
+
+So, in the project directory create a directory called "stuff" ad create a go source file in there.
+
+~~~
+mkdir stuff
+touch stuff/some_functions.go
+~~~
+
+In the some_functions file:
+
+~~~ golang
+package stuff
+
+import "fmt"
+
+// MyName is a variable holding my name!
+var MyName = "Rob"
+
+// DoSomething prints the message "Ok, ok, I'm doing it!" to the console
+func DoSomething() {
+	fmt.Println("Ok, ok, I'm doing it!")
+}
+
+// WhoAreYou print MyName to the console
+func WhoAreYou() {
+	fmt.Println(MyName)
+}
+~~~
+
+Now we can use these functions and variables.  Now, we can return to our project folder, create a program, say `touch useStuff.go` and use those functions and variables:
+
+~~~ golang
+package main
+
+import (
+	"fmt"
+
+	"github.com/RobCThompson/UdemyGoLangTraining/stuff"
+)
+
+func main() {
+	// Print a helpful message
+	fmt.Println("Ok, off we Go...")
+	stuff.DoSomething()
+	fmt.Printf("Here's my name: %v\n", stuff.MyName)
+	// Who are you?
+	stuff.WhoAreYou()
+}
+~~~
+
+--------------------------------------------------------------------------------
+# 41: Variables
+
+There are two preferred (idiomatic) ways to initialise variables:
+
+* Shorthand: Can only be used inside a `func`.  Use `name := value`
+* var: Can be used to initialise to the "zero" value
+
+Declare, assign, initialise
+
+Declare is where you create a variable with it's type but don't assicgn a value.
+
+When printing we ca use %T to print the type of a variable.
+
+--------------------------------------------------------------------------------
+# 42: Scope
+
+From where can I access that variable?
+
+Rule of thumb - "keep your scope tight" - i.e. declare your variables close to where you are using them... and remember to create variables *before* trying to use them!
+
+* **Package level**: When a variable is declared outside of a `func`.
+* **Block Level**: When a variable is declared within a block say, a `func` or a `loop`, for example.  
