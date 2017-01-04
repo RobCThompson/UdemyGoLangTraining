@@ -155,7 +155,7 @@ func main(){
 * `go install` works the same as go buld except that it places the executable into the $GOPATH/bin directory.
 
 --------------------------------------------------------------------------------
-# 24 & 25: Github
+# 24 & 25: GitHub
 
 Make sure that Git is installed.
 
@@ -170,3 +170,71 @@ Then, continue to use git as you would locally, i.e adding files with `git add <
 If you then wish to push back to github do so with `git push -u origin master` or just `git push`.
 
 Don't forget that `git status` is a useful command!
+
+--------------------------------------------------------------------------------
+# 27, 28, 29: Computing Fundamentals
+
+--------------------------------------------------------------------------------
+# 30: Housekeeping
+
+Tutorial repo has changed to `github.com/goestoeleven/golangtraining`.
+
+Can get this with Go using `go get -u github.com/goestoeleven/golangtraining`
+
+--------------------------------------------------------------------------------
+# 32: Binary stuff
+
+Base 2
+
+| 128's | 64's  | 32's  | 16's  | 8's   | 4's   | 2's   | 1's   |
+|-------|-------|-------|-------|-------|-------|-------|-------|
+| 2^7   |  2^6  | 2^5   | 2^4   | 2^3   |  2^2  |  2^1  | 2^0   |
+
+--------------------------------------------------------------------------------
+# 33: Hexadecimal Stuff
+Base 16
+
+|          | 65,536's |  4,096's | 256's    |  16's    |    1's   |
+|----------|----------|----------|----------|----------|----------|
+|          |   16^4   |   16^3   |    16^2  |    16^1  |   16^0   |
+| 42 =     |          |          |          |     2    |    a     |
+
+Why hexadecimal? More efficient storage.
+
+## There's also Octal...
+Base 8
+
+| 262,144's | 32,768's  | 4096's  | 512's | 8's   |  64's | 8's   | 1's   |
+|-------|-------|-------|-------|-------|-------|-------|-------|
+| 8^7   |  8^6  | 8^5   | 8^4   | 8^3   |  8^2  |  8^1  | 8^0   |
+
+--------------------------------------------------------------------------------
+# 35: Coding Scheme Programs
+
+Read <https://godoc.org/fmt> for format specifiers.
+Print the number 42.
+
+~~~golang
+package main
+
+import "fmt"
+
+func main() {
+	// Print the number 42
+	fmt.Println(42)
+	// Print the number 42 in various formats
+	fmt.Println("Decimal\tBinary\t\tOctal\tHexadecimal")
+	fmt.Printf("%d\t0b%08b\t%o\t0x%x\n", 42, 42, 42, 42)
+}
+
+~~~
+
+Outputs:
+~~~
+42
+Decimal    Binary        Octal    Hexadecimal
+42         0b00101010    52       0x2a
+~~~
+
+--------------------------------------------------------------------------------
+# 36: Coding Scheme Programs continued
