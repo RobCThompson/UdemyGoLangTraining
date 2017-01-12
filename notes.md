@@ -735,7 +735,7 @@ func main(){
 All to do with scope.  Returning a function from a function is an example of closure...?
 
 --------------------------------------------------------------------------------
-# 73: Callbacks
+# 73 & 74: Callbacks
 
 In Go "function" is a type, therefor they can be passed around in the same wasy as any other variable.  They can be passed into functions and returned from functions.
 
@@ -768,3 +768,40 @@ func main(){
   fmt.Println(xs) // [2 3 4 5 6 7 8]
 }
 ~~~
+
+--------------------------------------------------------------------------------
+# 75: Recursion
+
+When a function call itself then it is recursive.
+
+Any problem that can be solved with recursino can be solved witout it.  Most of the time it's better just to use loops as they are more performant.
+
+--------------------------------------------------------------------------------
+# 76: Defer
+
+Defer causes the folowing statement to be 'deferred' until the containing function is ready to exit.
+
+In this example the defer statement causes the `world()` function to wait until just before the `main()` function exits which mean it happens **after** the `hello()` functino even though it's called first.
+
+~~~golang
+package main
+
+import "fmt"
+
+func hello() {
+  fmt.Print("hello ")
+}
+
+func world() {
+  fmt.Println("world")
+}
+
+func main() {
+  defer world()
+  hello
+}
+
+// Prints hello world
+~~~
+
+A good example is when working with files - it's important to remember to close files once we're done with them.  `defer` is useful because you can call the file close operation immediately after opening it but by deferring it the file only actually gets closed once you're other processing is done.
