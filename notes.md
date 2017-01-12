@@ -318,4 +318,453 @@ From where can I access that variable?
 Rule of thumb - "keep your scope tight" - i.e. declare your variables close to where you are using them... and remember to create variables *before* trying to use them!
 
 * **Package level**: When a variable is declared outside of a `func`.
-* **Block Level**: When a variable is declared within a block say, a `func` or a `loop`, for example.  
+* **Block Level**: When a variable is declared within a block say, a `func` or a `loop`, for example.
+
+--------------------------------------------------------------------------------
+# 46: Blank Identifier
+
+You must use everything you put into your code.  All declared variables must be used.  The blank identifier is used to take any return values from functions that you don't need to use and divert them to nil.
+
+Here's a program where we've ignored the error checking by dumping the err return values into the blank identifier.  It's also a pretty nifty example of how esy HTTP requests are in Go!
+
+~~~ golang
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	res, _ := http.Get("http://www.google.co.uk")
+	page, _ := ioutil.ReadAll(res.Body)
+	res.Body.Close()
+	fmt.Printf("%s\n\n", page)
+}
+
+~~~
+
+--------------------------------------------------------------------------------
+# 50, 51, 52: Memory Addresses and Pointers
+
+Memory addresses can be accessed using the `&` operator.  Pointer's are identified by the `*` operator.  The same as in C/C++.
+
+Memory addresses can be *referenced* by pointers:
+
+~~~golang
+a := 43         // a is an integer variable
+var b *int = &a // b is a reference to the memory address of a
+~~~
+
+The values stored in the memory locations referenced by pointers can be accessed or *dereferenced* using the `*` operator.
+
+~~~ golang
+a:= 43
+var b *int = &a
+fmt.Printf("a=%v *b=%v", a, *b) // Prints: a=43 *b=43
+~~~
+
+## What's the point of pointers?
+You can write a function to change a variable directly rather than using a return value.
+
+--------------------------------------------------------------------------------
+# 53: Remainder
+
+Modulo.  Go's modulo operator is `%`.
+Remember that division is integer so long as all the variables are integers.
+
+~~~golang
+x := 13 / 4   // 3
+y := 13.0 / 4 // 3.25
+~~~
+
+--------------------------------------------------------------------------------
+# 54: Review
+
+See above!
+
+Plus, you can generate/extract documentation from the source code using `godoc <package name>`.
+
+For example:
+
+`godoc ./packages/stuff`
+
+--------------------------------------------------------------------------------
+# 55: Section Overview
+
+Check out <https://forum.golangbridge.org/> for asking questions.
+
+Interesting note, instruction videos should be between 5 and 8 minutes long to provide ballance between viewers feeling they're "getting their money's worth" and fitting instide their attentino span.
+
+--------------------------------------------------------------------------------
+# 56: Loops
+
+## Syntax: For Loop
+
+~~~golang
+for i:= 0; i <= 100; i++ {
+  fmt.Println(i)
+}
+~~~
+
+Syntax is more or less that same as C/C++.
+
+--------------------------------------------------------------------------------
+# 57: Nested Loops
+
+ Wheen nesting loops remember that the "inner" loops loop through each time the outer loops loop through.
+
+ ~~~golang
+
+ for i := 0; i < 3; i++ {
+   for j := 0; j < 3; j++ {
+     for k := 0; k < 3; k++ {
+       fmt.Println(i, " ", j, " ", k)
+     }
+   }
+ }
+~~~
+
+Outputs:
+
+~~~
+0   0   0
+0   0   1
+0   0   2
+0   1   0
+0   1   1
+0   1   2
+0   2   0
+0   2   1
+0   2   2
+1   0   0
+1   0   1
+1   0   2
+1   1   0
+1   1   1
+1   1   2
+1   2   0
+1   2   1
+1   2   2
+2   0   0
+2   0   1
+2   0   2
+2   1   0
+2   1   1
+2   1   2
+2   2   0
+2   2   1
+2   2   2
+~~~
+
+--------------------------------------------------------------------------------
+# 58: Loops Conditions, Break and Continue
+
+In `for` loop the condition will cause the loop to evaluate while the condition evaluates to TRUE.
+
+~~~golang
+// Prints 0 to 9 to conole
+i := 10
+for i < 10 {
+  fmt.Println(i)
+  i++
+}
+~~~
+
+~~~golang
+// for with no condition - will run forever
+i := 0
+for {
+  fmt.Println(i)
+  i++
+}
+~~~
+
+The following snippet prints 0 to 10, it uses a break statement in a condition to break out of the loop when the counter reaches 10.
+~~~golang
+// Prints 0 to 10.  Uses a
+i := 0
+for {
+  fmt.Println(i)
+  if i >= 10{
+    break
+  }
+  i++
+}
+~~~
+
+The keyword `continue` causes a loop to return to the top of the loop.  The following snippet only prints ODD numbers 1 to 51:
+
+~~~golang
+i := 0
+for {
+  i++
+  if i %2 == 0 {
+    continue  // i % 2 == 0 for EVEN numbers, in that case contiune to the next
+              // loop iteration.
+  }
+  fmt.Println(i)
+  if i>= 50{
+    break     // Breaks on 51 because 50 is even.  In that case the continues
+              // prevents this block from being reached.
+  }
+}
+~~~
+
+--------------------------------------------------------------------------------
+# 59: Documentation and Terminology
+
+In UTF-8 readable characters are encoded as numbers.
+
+## Runes
+**Rune**: A Rune is a single character from any language.
+
+Strings are initialised using "" or ``, runes are initialised using single-quotes ''.
+ Runes are also an alias for an `int32` since that's all a character is underneath.
+
+ ~~~golang
+ func main() {
+ 	myRune := '£'
+
+ 	fmt.Println("My rune: ", myRune)    // My rune: 163
+ 	fmt.Printf("My rune: %q\n", myRune) // My rune: '£'
+ }
+ ~~~
+
+--------------------------------------------------------------------------------
+ # 60: More on Runes
+
+ In go *Casting* is called **Conversion**.
+
+ For example, here we convert a string "Hello" to a slice of bytes:
+
+ ~~~golang
+ func main(){
+   fmt.Println([]byte("Hello"))
+ }
+ ~~~
+
+--------------------------------------------------------------------------------
+# 61: Strings
+
+ A string is just a collection of runes.
+
+ Strings can be converted to slices of bytes using `[]byte("Hello")`.
+
+ Strings can be declared inside double-quotes, "" or backticks ``.  Backticks allows the inclusion of quotes, new lines and other special characters.  Useful for declaring large blocks of text such as XML, HTML or SQL.
+
+--------------------------------------------------------------------------------
+# 62: Switch Statements
+
+Switch statements in go don't automatically "fall through" like they do in C/C++ which means there's no need for the `break;` statement between cases.  To deal with scenarios when it's desirable to fall through then there is the `fallthrough` keyword.  A default, catch-all can be defined with the `default` keyword.
+
+Multiple matches can have the same code by using commas `,` to separate expressions.
+
+
+~~~golang
+func main(){
+  myScore := 3
+  switch myScore {
+  case 0, 1, 2:
+    fmt.Println("Lame!")
+  case 3,4,5:
+    fmt.Print("Better luck next time!")
+  case 6,7,8:
+    fmt.Print("Hey, nice!")
+  case 9:
+    fmt.Println("Ooh, so close - good stuff!")
+  case 10:
+    fmt.Println("BOOM! Nailed it!")
+  default:
+    fmt.Println("nah, you're making it up!")
+  }
+}
+~~~
+
+The conditional statemenet can be omitted in favour of separate conditionals in the case statements to create if-else-if chains:
+
+~~~golang
+func main(){
+  myScore := 3
+  switch {
+  case myScore <= 3:
+    fmt.Println("Lame!")
+  case myScore > 3 && myScore <= 5:
+    fmt.Print("Better luck next time!")
+  case myScore > 5 && myScore <= 8:
+    fmt.Print("Hey, nice!")
+  case myScore == 9:
+    fmt.Println("Ooh, so close - good stuff!")
+  case myScore == 10:
+    fmt.Println("BOOM! Nailed it!")
+  default:
+    fmt.Println("nah, you're making it up!")
+  }
+}
+~~~
+
+--------------------------------------------------------------------------------
+# 63: If
+
+If Syntax in Go is pretty much the same as other languages.  THe block of colde runs if the statement evaluates to true.
+
+The `!` is used to invert or negate the statement, read 'not', e.g `if a != b` "if a is not equal to b".
+
+It's valid to include a variable initialisation in the if statement:
+
+~~~golang
+if err := file.Chmod(0664); err != nil{
+  log.Print(err)
+  return err
+}
+~~~
+
+This is done to limit the scope of a variable.  It's scope is only the if block.
+
+If-else syntax is:
+
+~~~ golang
+
+if false {
+  fmt.Println("This will never print")
+} else if false {
+  fmt.Println("This won't print either")
+} else if true {
+  fmt.Println("This will print though")
+} else {
+  fmt.Println("Umm, else what? This won't print.")
+}
+~~~
+
+--------------------------------------------------------------------------------
+# 65: Section Review
+
+--------------------------------------------------------------------------------
+# 66, 67, 68: Functions
+
+`func main(){}` is the entry point to a Go program, you can only have one!
+
+In Go, parameters are defined with their name followed by their type (C/C++ et al do it the other way around).
+
+~~~golang
+func greet(name string){
+  fmt.Println("Hello ", name)
+}
+~~~
+
+## Returns
+
+~~~golang
+func greet(fname, lname string) string {
+  return fmt.Sprint(fname, lname)
+}
+
+func main(){
+  fmt.Println(greet("Rob", "Thompson"))
+}
+~~~
+
+If you name the variable to return in the function declaration then the return doesn't need to be followed explicitly by the value to return:
+
+~~~golang named returns
+func greet(fname string, lname string) (s string)  {
+  s = fmt.Sprint(fname, lname)
+  return
+}
+~~~
+
+Multiple return values can be defined in either way:
+
+~~~golang
+func greet(fname, lname string) (string, string){
+  return fmt.Sprint(fname, lname), fmt.Sprint(lname, fname)
+}
+~~~
+
+## Variadic functions
+
+Variadic functions can accept a variying number or arguments.
+
+The final parameter in a functino signature my have a type prefixed with `...`.  A function with such a parameter is called *variadic* and may be invoked with zero or more arguments for that parameter.
+
+~~~golang
+
+func average(sf ...float64) float64 {
+  fmt.Println(sf)
+  fmt.Printf("sf: %v of type %T", sf, sf)
+  var total float64
+  for _, v := range sf {
+    total += v
+  }
+  return total / float64(len(sf))
+}
+
+~~~
+
+Using the `...` with an argument opens up the suppled slice and suplies the entities independently.
+
+~~~golang
+func main(){
+  data := []float64{43, 56, 87, 12, 45, 57}
+  n := average(data...)
+  fmt.Println(n)
+}
+~~~
+
+So, when declaring a function signature the dots for *before the paramater*.  When supplying data into a function as an argument the dots go *after the argument*.
+
+## Func Expressions / Anonymous Functions
+
+You can assign a function to a variable and then call it.
+
+~~~golang
+
+func main(){
+  greeting := func() string {
+    fmt.Println("Hello world!")
+  }
+  greeting()
+  fmt.Printf("%T\n", greeting)
+}
+~~~
+
+--------------------------------------------------------------------------------
+# 72: Closure
+
+All to do with scope.  Returning a function from a function is an example of closure...?
+
+--------------------------------------------------------------------------------
+# 73: Callbacks
+
+In Go "function" is a type, therefor they can be passed around in the same wasy as any other variable.  They can be passed into functions and returned from functions.
+
+This is an example of a callback, here a function, filter, accepts a slice of numbers and a function that takes an int as it's parameter and returns a boolean.  The filter function will return a slice containing numbers that have been processed by the function supplied to it.
+
+In main() we create a variable that will hold the output of the filter function.  The slice and anonymous function are initialised at the same point as calling filter.
+
+This *could* have been achieved without using a callback but in that instance the function's scope would have been package level.  It's a good thing to keep scope as tight as possible.
+Also, callbacks are useful in event driven programming with languages such as Javascript, C# and C++ - is this also true for Go...?
+
+~~~golang
+package main
+
+import "fmt"
+
+func filter(numbers []int, callback func(int) bool) []int {
+  var xs []int
+  for _, n := range numbers {
+    if callback(n){
+      xs = append(xs, n)
+    }
+  }
+  return xs
+}
+
+func main(){
+  xs := filter([]int{1,2,3,4,5,6,7,8}, func(n int) bool {
+    return n > 1
+  })
+  fmt.Println(xs) // [2 3 4 5 6 7 8]
+}
+~~~

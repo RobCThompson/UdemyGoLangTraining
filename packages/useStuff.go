@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/RobCThompson/UdemyGoLangTraining/stuff"
+	"./stuff"
 )
 
 func main() {
