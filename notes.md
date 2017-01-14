@@ -805,3 +805,5 @@ func main() {
 ~~~
 
 A good example is when working with files - it's important to remember to close files once we're done with them.  `defer` is useful because you can call the file close operation immediately after opening it but by deferring it the file only actually gets closed once you're other processing is done.
+
+--------------------------------------------------------------------------------
