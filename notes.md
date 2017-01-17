@@ -109,7 +109,9 @@ In terminal, head to user's root and edit `.bash_profile` (or `.bashrc`)
   * `export PATH="$HOME/Documents/Coding/Go/bin:$PATH"`
 
 --------------------------------------------------------------------------------
-# 11 to 14: Configuring Linux installatino
+# 11 to 14: Configuring Linux installation
+
+## Linux Machine Setup
 
   Skipped for now.
 
@@ -165,7 +167,7 @@ Add the remote Github origin (if you are using it) with `git remote add origin h
 
 If the repository was created on Github with a README.md document or some other content then the repo's might not match so it's likely to be a good idea to *PULL* the remote repo before making changes to the local one.  Do this with `git pull origin master`.
 
-Then, continue to use git as you would locally, i.e adding files with `git add <filename>` or `git add -all` and commiting with `git commit -m "a useful message"`.
+Then, continue to use git as you would locally, i.e adding files with `git add <filename>` or `git add --all` and commiting with `git commit -m "a useful message"`.
 
 If you then wish to push back to github do so with `git push -u origin master` or just `git push`.
 
@@ -807,3 +809,76 @@ func main() {
 A good example is when working with files - it's important to remember to close files once we're done with them.  `defer` is useful because you can call the file close operation immediately after opening it but by deferring it the file only actually gets closed once you're other processing is done.
 
 --------------------------------------------------------------------------------
+# 77: Pass By Value
+
+Everything in Go is pass by value.  When we pass data into a function we are always just working on that value.
+
+When you pass a variable into a function the function will not (usually) change the variable you pass in.  If you need that to happen then you must pass in a reference to that varaiable so that the function can word dorectly on the data stored at that memory location.
+
+This snippet demonstates changing a variable's value by passing a function it's address.
+
+~~~ golang
+package main
+
+import "fmt"
+
+func main() {
+	age := 44
+	fmt.Println(age)  //  Value of age: 44
+	fmt.Println(&age) //  Address of age: 0xc8200761c0
+
+	changeMe(&age) // call changeMe passing in the address of age
+
+	fmt.Println(age)  // New value of age: 24
+	fmt.Println(&age) // Address of age: 0xc8200761c0
+}
+
+func changeMe(z *int) {
+	fmt.Println(z)  // Reference, address: 0xc8200761c0
+	fmt.Println(*z) // Dereference, value at that address:
+	*z = 24         // Change hte value at that address
+	fmt.Println(z)  // Address: 0xc8200761c0
+	fmt.Println(*z) // Value at that address: 24
+}
+
+}
+~~~
+
+--------------------------------------------------------------------------------
+# 78: Reference Types
+
+Other languages have "Pass by reference" - **everything in Go is pass by value**.  In Go you pass the value of the vareiable *not the variable itself*.
+
+Slices are a "Reference Type", when they are passed into functions they behave like refrernces.  THis is because an slice points to an underlying array meaning it implicitly contains a reference to the underlying array.  Maps work in a similar way.
+
+--------------------------------------------------------------------------------
+# 78: Anonymous Self-Executing Functions
+
+Hails from functional programming. Anonymous self-executing functions are not idiomatic in Go and are not recommended.
+
+~~~ golang
+package main
+
+import "fmt"
+
+func main(){
+  func() {                      // Anonymous, has no name...
+    fmt.Println("I'm driving!") //        don't code and drive!
+  }()                           // ... self executing
+}
+~~~
+
+--------------------------------------------------------------------------------
+# 80: Boolean Expressions
+
+Expressions which evaluate down to a value of type bool.
+
+## Expressions vs statements
+
+The expression is the `if x == 14 || false` bit, the statement is the code that follows.  in general an expression produces a value, a statement performs an action.
+
+## Operators
+
+* `!`: **Not**  `!true` Not true, false
+* `||`: **Or** `true || false` true or false, true
+* `&&`: **And** `true && false` true and false, false
